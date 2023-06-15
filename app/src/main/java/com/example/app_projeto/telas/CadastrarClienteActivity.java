@@ -8,17 +8,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.app_projeto.model.Banco;
 import com.example.app_projeto.R;
+import com.example.app_projeto.model.Banco;
 import com.example.app_projeto.model.Cliente;
-import com.example.app_projeto.model.Mensalidades;
 import com.google.android.material.textfield.TextInputEditText;
-
-import java.util.InputMismatchException;
 
 public class CadastrarClienteActivity extends AppCompatActivity {
 
     private TextInputEditText emailCadasrtroCliente;
+    private TextInputEditText valorMensalidadeCliente;
     private TextInputEditText cpfCadastroCliente;
 
     private TextInputEditText turnoCadastroCliente;
@@ -33,6 +31,7 @@ public class CadastrarClienteActivity extends AppCompatActivity {
         cpfCadastroCliente = findViewById(R.id.cpfCadastroCliente);
         turnoCadastroCliente = findViewById(R.id.turnoCadastroCliente);
         cadastroCliente = findViewById(R.id.cadastroCliente);
+        valorMensalidadeCliente = findViewById(R.id.valorMensalidadeCliente);
 
         cadastroCliente.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,10 +44,7 @@ public class CadastrarClienteActivity extends AppCompatActivity {
                         c.setNome(emailCadasrtroCliente.getText().toString());
                         c.setCpf(cpfCadastroCliente.getText().toString());
                         c.setTurno(turnoCadastroCliente.getText().toString());
-                        Mensalidades m = new Mensalidades();
-                        m.setValor(300);
-                        m.setStatus(true);
-                        Banco.mensalidades.add(m);
+                        c.setMensalidade(Double.parseDouble(valorMensalidadeCliente.getText().toString()));
                         Banco.clientes.add(c);
                         finish();
                         Toast.makeText(getApplicationContext(), "Cliente cadastrado com sucesso!", Toast.LENGTH_SHORT).show();

@@ -11,7 +11,7 @@ import android.widget.LinearLayout;
 import com.example.app_projeto.R;
 import com.example.app_projeto.adapter.ListaHistoricoAdapter;
 import com.example.app_projeto.model.Banco;
-import com.example.app_projeto.model.Historico;
+import com.example.app_projeto.model.Frequencia;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +20,7 @@ public class Carteira extends AppCompatActivity {
 
     private ListaHistoricoAdapter lista_historico_adapter;
     private RecyclerView listaHistorico;
-    private List<Historico> list = new ArrayList<>();
+    private List<Frequencia> list = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +40,7 @@ public class Carteira extends AppCompatActivity {
 
     public void carregarListaHistorico(){
         list.clear();
-        list.addAll(Banco.historicos);
+        list.addAll(Banco.frequencias);
         lista_historico_adapter.notifyDataSetChanged();
     }
     protected void onResume() {

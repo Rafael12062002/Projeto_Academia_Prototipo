@@ -7,7 +7,7 @@
     tools:context=".telas.Carteira">
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/extrato"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
@@ -29,7 +29,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5">
+        app:layout_constraintTop_toBottomOf="@+id/extrato">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/listaHistorico"

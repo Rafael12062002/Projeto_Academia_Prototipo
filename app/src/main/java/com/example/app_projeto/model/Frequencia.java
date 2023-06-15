@@ -1,6 +1,6 @@
 package com.example.app_projeto.model;
 
-public class Historico {
+public class Frequencia {
 
     private long id;
     private String usuario, cliente;

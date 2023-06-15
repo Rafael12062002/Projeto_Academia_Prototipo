@@ -12,12 +12,16 @@ import android.widget.Toast;
 import com.example.app_projeto.R;
 import com.google.android.material.textfield.TextInputEditText;
 
+import retrofit2.Retrofit;
+
 public class MainActivity extends AppCompatActivity {
 
     private TextInputEditText emailLogin;
     private TextInputEditText senhaLogin;
     private Button botaoLogin;
     private Button botaoCadastro;
+
+    private Retrofit retrofit;
 
     @SuppressLint("MissingInflatedId")
     @Override

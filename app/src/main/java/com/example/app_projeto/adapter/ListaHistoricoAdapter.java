@@ -9,16 +9,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.app_projeto.R;
-import com.example.app_projeto.model.Historico;
+import com.example.app_projeto.model.Frequencia;
 
 import java.util.List;
 
 public class ListaHistoricoAdapter extends RecyclerView.Adapter<ListaHistoricoAdapter.MyViewHolder> {
 
-    private List<Historico> historico;
+    private List<Frequencia> frequencia;
 
-    public ListaHistoricoAdapter(List<Historico> historico) {
-        this.historico = historico;
+    public ListaHistoricoAdapter(List<Frequencia> frequencia) {
+        this.frequencia = frequencia;
     }
 
     @NonNull
@@ -31,17 +31,17 @@ public class ListaHistoricoAdapter extends RecyclerView.Adapter<ListaHistoricoAd
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        Historico historico = this.historico.get(position);
-        holder.nomeUsuario.setText(historico.getUsuario());
-        holder.nomeCliente.setText(historico.getCliente());
-        holder.horaHistorico.setText((int) historico.getHora());
-        holder.valorHistorico.setText((int) historico.getValor());
+        Frequencia frequencia = this.frequencia.get(position);
+        holder.nomeUsuario.setText(frequencia.getUsuario());
+        holder.nomeCliente.setText(frequencia.getCliente());
+        holder.horaHistorico.setText((int) frequencia.getHora());
+        holder.valorHistorico.setText((int) frequencia.getValor());
     }
 
     @Override
     public int getItemCount() {
 
-        return this.historico.size();
+        return this.frequencia.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder{

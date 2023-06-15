@@ -1,11 +1,12 @@
 package com.example.app_projeto.model;
 
-public class Cliente {
+public  class Cliente {
 
     private long id;
     private String nome;
     private String turno;
     private String cpf;
+    private double mensalidade;
 
     public long getId() {
         return id;
@@ -37,5 +38,13 @@ public class Cliente {
 
     public void setCpf(String cpf) {
         this.cpf = cpf;
+    }
+
+    public double getMensalidade() {
+        return mensalidade;
+    }
+
+    public void setMensalidade(double mensalidade) {
+        this.mensalidade = mensalidade;
     }
 }
