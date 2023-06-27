@@ -23,8 +23,6 @@ import java.util.List;
 public class MainActivity3 extends AppCompatActivity {
 
     private Button cadastrarCliente;
-    private Button carteira;
-    private Button configuracao;
     private RecyclerView listaClientes;
     private ListaClienteAdapter listaClienteAdapter;
     private List<Cliente> listaCliente = new ArrayList<>();
@@ -35,8 +33,6 @@ public class MainActivity3 extends AppCompatActivity {
         setContentView(R.layout.activity_main3);
 
         cadastrarCliente = findViewById(R.id.cadastrarCliente);
-        carteira = findViewById(R.id.carteira);
-        configuracao = findViewById(R.id.configuracao);
         listaClientes = findViewById(R.id.listaClientes);
 
         cadastrarCliente.setOnClickListener(new View.OnClickListener() {
@@ -48,21 +44,8 @@ public class MainActivity3 extends AppCompatActivity {
             }
         });
 
-        carteira.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), Carteira.class);
-                startActivity(intent);
-            }
-        });
 
-        configuracao.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), Configuracao.class);
-                startActivity(intent);
-            }
-        });
+
 
         listaClienteAdapter = new ListaClienteAdapter(listaCliente);
 
