@@ -10,6 +10,7 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 
@@ -24,7 +25,7 @@ public interface BancoService {
     Call<List<Frequencia>> recuperarFrequencia();
 
     @POST("Crud/APIInserirPessoas.php/")
-    Call<Usuario> salvarUsuario(@Body RequestBody usuario);
+    Call<Usuario> salvarUsuario(@Header("Authorization") String authorizationHeader, @Body RequestBody usuario);
 
     @POST
     Call<Cliente> salvarCliente(@Body Cliente cliente);

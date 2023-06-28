@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -42,6 +43,7 @@ public class MainActivity2 extends AppCompatActivity {
     private TextInputEditText cpfCadastroUsuario;
     private List<Usuario> usuarioList = new ArrayList<>();
     private TextView resultado;
+    private String token = "123";
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,15 +126,14 @@ public class MainActivity2 extends AppCompatActivity {
           BancoService service = retrofit.create(BancoService.class);
           String nome = emailCadastro.getText().toString();
           String senha = senhaCadastro.getText().toString();
-          long cpf = cpfCadastroUsuario.getText().length();
-          boolean dono = escolhaDono.isChecked();
-          boolean cliente = escolhaFuncionario.isChecked();
+          long cpf = Long.parseLong(cpfCadastroUsuario.getText().toString());
 
           Usuario u = new Usuario();
           u.setNome(nome);
           u.setCpf(cpf);
           u.setSenha(senha);
-          u.setUsuario_type(String.valueOf(dono || cliente));
+          u.setUsuario_type("dono");
+          u.setUsuario_type("cliente");
 
         // Criar um objeto JSON para enviar os dados
         JSONObject jsonObject = new JSONObject();
@@ -140,7 +141,7 @@ public class MainActivity2 extends AppCompatActivity {
             jsonObject.put("nome", u.getNome());
             jsonObject.put("cpf", u.getCpf());
             jsonObject.put("senha", u.getSenha());
-            jsonObject.put("Usuario_type", u.getUsuario_type());
+            jsonObject.put("usuario_type", u.getUsuario_type());
         }catch (JSONException e){
             e.printStackTrace();
         }
@@ -151,13 +152,16 @@ public class MainActivity2 extends AppCompatActivity {
         // Criar a requisição POST com o corpo da requisição
         RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), request);
 
-        Call<Usuario> responseBodyCall = service.salvarUsuario(body);
+        String autorizarionHead = "Bearer " + token;
+
+        Call<Usuario> responseBodyCall = service.salvarUsuario(autorizarionHead, body);
 
         responseBodyCall.enqueue(new Callback<Usuario>() {
             @Override
             public void onResponse(Call<Usuario> call, Response<Usuario> response) {
                 if (response.isSuccessful()){
                     Toast.makeText(getApplicationContext(), "certo", Toast.LENGTH_SHORT).show();
+                    Log.d("m", request);
                 }
             }
 
