@@ -42,7 +42,6 @@ public class MainActivity2 extends AppCompatActivity {
     private RadioButton escolhaFuncionario;
     private TextInputEditText cpfCadastroUsuario;
     private List<Usuario> usuarioList = new ArrayList<>();
-    private TextView resultado;
     private String token = "123";
     @SuppressLint("MissingInflatedId")
     @Override
@@ -56,7 +55,6 @@ public class MainActivity2 extends AppCompatActivity {
         escolhaDono = findViewById(R.id.escolhaDono);
         escolhaFuncionario = findViewById(R.id.escolhaFuncionario);
         cpfCadastroUsuario = findViewById(R.id.cpfCadastroUsuario);
-        resultado = findViewById(R.id.resultado);
 
         retrofit = new Retrofit.Builder()
                  //.baseUrl("192.168.0.104" +
@@ -126,14 +124,17 @@ public class MainActivity2 extends AppCompatActivity {
           BancoService service = retrofit.create(BancoService.class);
           String nome = emailCadastro.getText().toString();
           String senha = senhaCadastro.getText().toString();
-          long cpf = Long.parseLong(cpfCadastroUsuario.getText().toString());
+          String cpf = cpfCadastroUsuario.getText().toString();
 
           Usuario u = new Usuario();
           u.setNome(nome);
           u.setCpf(cpf);
           u.setSenha(senha);
-          u.setUsuario_type("dono");
-          u.setUsuario_type("cliente");
+          if (escolhaDono.isChecked()){
+              u.setUsuario_type("dono");
+          }else {
+              u.setUsuario_type("funcionario");
+          }
 
         // Criar um objeto JSON para enviar os dados
         JSONObject jsonObject = new JSONObject();
@@ -168,6 +169,7 @@ public class MainActivity2 extends AppCompatActivity {
             @Override
             public void onFailure(Call<Usuario> call, Throwable t) {
 
+                Toast.makeText(getApplicationContext(), "falha na requisição", Toast.LENGTH_SHORT).show();
             }
 
         });

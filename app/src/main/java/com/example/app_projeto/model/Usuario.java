@@ -2,17 +2,17 @@ package com.example.app_projeto.model;
 
 public class Usuario {
 
-    private long id;
+    private int id;
     private String nome;
-    private long cpf;
+    private String cpf;
     private String senha;
     private String usuario_type;
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -24,11 +24,11 @@ public class Usuario {
         this.nome = nome;
     }
 
-    public long getCpf() {
+    public String getCpf() {
         return cpf;
     }
 
-    public void setCpf(long cpf) {
+    public void setCpf(String cpf) {
         this.cpf = cpf;
     }
 

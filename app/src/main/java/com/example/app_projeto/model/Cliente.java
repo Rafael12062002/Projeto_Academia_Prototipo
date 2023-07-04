@@ -6,7 +6,9 @@ public  class Cliente {
     private String nome;
     private String turno;
     private String cpf;
-    private double mensalidade;
+    private String mensalidade;
+    private String foto;
+    private String data;
 
     public long getId() {
         return id;
@@ -40,11 +42,27 @@ public  class Cliente {
         this.cpf = cpf;
     }
 
-    public double getMensalidade() {
+    public String getMensalidade() {
         return mensalidade;
     }
 
-    public void setMensalidade(double mensalidade) {
+    public void setMensalidade(String mensalidade) {
         this.mensalidade = mensalidade;
+    }
+
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
     }
 }

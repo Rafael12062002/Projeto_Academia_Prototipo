@@ -26,6 +26,7 @@ public class MainActivity3 extends AppCompatActivity {
     private RecyclerView listaClientes;
     private ListaClienteAdapter listaClienteAdapter;
     private List<Cliente> listaCliente = new ArrayList<>();
+    private Button listarUsuarios;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +35,7 @@ public class MainActivity3 extends AppCompatActivity {
 
         cadastrarCliente = findViewById(R.id.cadastrarCliente);
         listaClientes = findViewById(R.id.listaClientes);
+        listarUsuarios = findViewById(R.id.ListarUsuarios);
 
         cadastrarCliente.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,8 +46,13 @@ public class MainActivity3 extends AppCompatActivity {
             }
         });
 
-
-
+        listarUsuarios.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), ListaUsuario.class);
+                startActivity(intent);
+            }
+        });
 
         listaClienteAdapter = new ListaClienteAdapter(listaCliente);
 
