@@ -9,6 +9,7 @@ public  class Cliente {
     private String mensalidade;
     private String foto;
     private String data;
+    private int usuario_id;
 
     public long getId() {
         return id;
@@ -64,5 +65,13 @@ public  class Cliente {
 
     public void setData(String data) {
         this.data = data;
+    }
+
+    public int getUsuario_id() {
+        return usuario_id;
+    }
+
+    public void setUsuario_id(int usuario_id) {
+        this.usuario_id = usuario_id;
     }
 }

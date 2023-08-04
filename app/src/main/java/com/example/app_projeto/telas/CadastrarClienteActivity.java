@@ -3,6 +3,7 @@ package com.example.app_projeto.telas;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,6 +14,8 @@ import android.widget.Toast;
 import com.example.app_projeto.R;
 import com.example.app_projeto.api.BancoService;
 import com.example.app_projeto.model.Cliente;
+import com.example.app_projeto.model.Usuario;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONException;
@@ -36,7 +39,7 @@ public class CadastrarClienteActivity extends AppCompatActivity {
     private TextInputEditText turnoCadastroCliente;
     private Button cadastroCliente;
     private Retrofit retrofit;
-    private String URL = "http://192.168.0.105/";
+    private String URL = "http://10.0.0.242/Crud/";
     private String token = "123";
     @SuppressLint("MissingInflatedId")
     @Override
@@ -66,6 +69,14 @@ public class CadastrarClienteActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Digite em todos os campos!", Toast.LENGTH_SHORT).show();
                 } else{
                         cadastrarCliente();
+                    Snackbar.make(view, "Cliente cadastrado com sucesso", Snackbar.LENGTH_INDEFINITE)
+                            .setAction("Confirmar", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Intent intent = new Intent(getApplicationContext(), MainActivity3.class);
+                                    startActivity(intent);
+                                }
+                            }).show();
                      }
             }
         });
@@ -80,12 +91,14 @@ public class CadastrarClienteActivity extends AppCompatActivity {
         String data = dataCliente.getText().toString();
 
         Cliente c = new Cliente();
+        int idusuario = Integer.parseInt(getIntent().getStringExtra("idUsuario"));
         c.setNome(nome);
         c.setCpf(cpf);
         c.setTurno(turno);
         c.setMensalidade(valorMensalidade);
         c.setFoto(foto);
         c.setData(data);
+        c.setUsuario_id(idusuario);
 
         //Criar um objeto JSON para enviar os dados
         JSONObject jsonObject = new JSONObject();
@@ -96,6 +109,7 @@ public class CadastrarClienteActivity extends AppCompatActivity {
             jsonObject.put("dataNascimento",c.getData());
             jsonObject.put("foto",c.getFoto());
             jsonObject.put("turno",c.getTurno());
+            jsonObject.put("usuario_id", c.getUsuario_id());
         }catch (JSONException e){
             e.printStackTrace();
         }
@@ -121,8 +135,6 @@ public class CadastrarClienteActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Cliente> call, Throwable t) {
-
-                Toast.makeText(getApplicationContext(), "Fracassado", Toast.LENGTH_SHORT).show();
                 Log.d("m", request);
             }
         });

@@ -35,6 +35,7 @@ public class ListaUsuarioAdapter extends RecyclerView.Adapter<ListaUsuarioAdapte
         holder.nomeUsuarioList.setText(usuario.getNome());
         holder.cpfUsuarioList.setText(usuario.getCpf());
         holder.tipoUsuarioList.setText(usuario.getUsuario_type());
+        holder.idUsuarioAdapter.setText(String.valueOf(usuario.getId()));
     }
 
     @Override
@@ -43,17 +44,17 @@ public class ListaUsuarioAdapter extends RecyclerView.Adapter<ListaUsuarioAdapte
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
-
-        TextView idUsuarioList;
         TextView nomeUsuarioList;
         TextView cpfUsuarioList;
         TextView tipoUsuarioList;
+        TextView idUsuarioAdapter;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             nomeUsuarioList = itemView.findViewById(R.id.nomeUsuarioList);
             cpfUsuarioList = itemView.findViewById(R.id.cpfUsuarioList);
             tipoUsuarioList = itemView.findViewById(R.id.tipoUsuarioList);
+            idUsuarioAdapter = itemView.findViewById(R.id.idUsuarioAdapter);
         }
     }
 }

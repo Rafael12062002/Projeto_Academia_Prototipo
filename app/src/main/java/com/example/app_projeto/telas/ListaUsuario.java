@@ -1,5 +1,6 @@
 package com.example.app_projeto.telas;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -13,7 +14,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -21,12 +21,10 @@ import android.widget.Toast;
 import com.example.app_projeto.R;
 import com.example.app_projeto.adapter.ListaUsuarioAdapter;
 import com.example.app_projeto.api.BancoService;
+import com.example.app_projeto.api.RetrofitUsuario;
 import com.example.app_projeto.listener.RecyclerItemClickListener;
 import com.example.app_projeto.model.Usuario;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,10 +40,8 @@ public class ListaUsuario extends AppCompatActivity {
     private ListaUsuarioAdapter listaUsuarioAdapter;
     private ImageView voltarTela;
     private List<Usuario> usuarioList = new ArrayList<>();
-    private List<Usuario> usuarioRecuperado = new ArrayList<>();
     private Retrofit retrofit;
-    private String token = "123";
-
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,10 +55,10 @@ public class ListaUsuario extends AppCompatActivity {
             }
         });
         retrofit = new Retrofit.Builder()
-                .baseUrl("http://10.0.0.242/")
+                .baseUrl("http://10.0.0.242/Crud/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        recuperarUsuarios();
+
 
         listaUsuarioAdapter = new ListaUsuarioAdapter(usuarioList);
 
@@ -82,21 +78,28 @@ public class ListaUsuario extends AppCompatActivity {
                         Usuario usuario = usuarioList.get(position);
                         Intent intent = new Intent(getApplicationContext(), EditarUsuarioActivit.class);
                         intent.putExtra("Nome", usuario.getNome());
+                        intent.putExtra("id", usuario.getId());
                         startActivity(intent);
                     }
 
                     @Override
                     public void onLongItemClick(View view, int position) {
                         Usuario usuario = usuarioList.get(position);
+                        int idPessoa = usuario.getId();
                         String nomeUsuario = usuario.getNome();
 
                         AlertDialog.Builder builder = new AlertDialog.Builder(ListaUsuario.this);
                         builder.setTitle("Remover Usuario?");
-                        builder.setMessage("Tem certeza que deseja remover " + "("+nomeUsuario+")" + " do banco de dados?");
+                        builder.setMessage("Tem certeza que deseja remover " + "("+nomeUsuario + idPessoa+")" + " do banco de dados?");
                         builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                deletarUsuario(nomeUsuario, position);
+                                String usuario_type = getIntent().getStringExtra("usuario");
+                                if (usuario_type.equals("dono")) {
+                                    deletarUsuario(position, idPessoa);
+                                }else{
+                                    Toast.makeText(getApplicationContext(), "Somente donos podem excluir usuarios", Toast.LENGTH_SHORT).show();
+                                }
                             }
                         });
                         builder.setNegativeButton("Não", new DialogInterface.OnClickListener() {
@@ -111,36 +114,48 @@ public class ListaUsuario extends AppCompatActivity {
 
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
                     }
                 }
         ));
     }
-    private void deletarUsuario(String nomeUsuario, int position){
-
+    private void deletarUsuario(int position, int id){
+        RetrofitUsuario.getInstance().getApi().deletarUsuario(id)
+                .enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        if (response.isSuccessful()){
+                            usuarioList.remove(position);
+                            listaUsuarioAdapter.notifyItemRemoved(position);
+                            Toast.makeText(getApplicationContext(), "Removido com sucesso!", Toast.LENGTH_SHORT).show();
+                        }else {
+                            Toast.makeText(getApplicationContext(), "Não foi possivel remover o  usuario", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        Toast.makeText(getApplicationContext(), "Resposta falhou", Toast.LENGTH_SHORT).show();
+                    }
+                });
 
     }
 
     public void recuperarUsuarios(){
         BancoService bancoService = retrofit.create(BancoService.class);
         Call<List<Usuario>> call = bancoService.recuperarUsuario();
-
         call.enqueue(new Callback<List<Usuario>>() {
             @Override
-            public void onResponse(Call<List<Usuario>> call, Response<List<Usuario>> response) {
+            public void onResponse(Call<List<Usuario>> call, @NonNull Response<List<Usuario>> response) {
                 if (response.isSuccessful()){
                     Toast.makeText(getApplicationContext(), "Carregando lista", Toast.LENGTH_SHORT).show();
                     usuarioList.clear();
+                    Log.d("lista usuario", usuarioList.toString());
+                    assert response.body() != null;
                     usuarioList.addAll(response.body());
                     //usuarioRecuperado.clear();
                     listaUsuarioAdapter.notifyDataSetChanged();
                     //usuarioList.addAll(response.body());
-
-                    for (int i = 0; i < usuarioList.size(); i++){
-                        Usuario usuario = usuarioList.get(i);
-
-                        Log.d("result", "resultado: " + usuario.getId()+ "/"+ usuario.getNome()+ "/"+ usuario.getCpf()+ "/"+ usuario.getUsuario_type());
-                    }
+                }else{
+                    Toast.makeText(getApplicationContext(), "Passou aqui", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -151,6 +166,13 @@ public class ListaUsuario extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    protected void onStart() {
+        recuperarUsuarios();
+        super.onStart();
+    }
+
     public void inicializarComponentes(){
         recyclerView = findViewById(R.id.usuariosCadastrados);
         voltarTela = findViewById(R.id.vpltar);

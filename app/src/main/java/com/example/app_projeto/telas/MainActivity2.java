@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 import com.example.app_projeto.R;
 import com.example.app_projeto.api.BancoService;
 import com.example.app_projeto.model.Usuario;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONException;
@@ -41,7 +43,7 @@ public class MainActivity2 extends AppCompatActivity {
     private RadioButton escolhaDono;
     private RadioButton escolhaFuncionario;
     private TextInputEditText cpfCadastroUsuario;
-    private List<Usuario> usuarioList = new ArrayList<>();
+
     private String token = "123";
     @SuppressLint("MissingInflatedId")
     @Override
@@ -59,7 +61,7 @@ public class MainActivity2 extends AppCompatActivity {
         retrofit = new Retrofit.Builder()
                  //.baseUrl("192.168.0.104" +
                     //    "fe80::2c5d:2aff:fe8b:a5a9")
-                .baseUrl("http://10.0.0.242/")
+                .baseUrl("http://10.0.0.242/Crud/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -67,28 +69,39 @@ public class MainActivity2 extends AppCompatActivity {
         botaoCadastroFeito.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String usuario_type = getIntent().getStringExtra("usuario");
+                if (usuario_type.equals("dono")){
                 if (cpfCadastroUsuario.getText().length() != 11) {
                     cpfCadastroUsuario.setError("Cpf invalido");
                 } else {
                     if (escolhaDono.isChecked() && emailCadastro != null && cpfCadastroUsuario != null && senhaCadastro != null) {
-                        Toast.makeText(getApplicationContext(), "pedido de confirmação enviado!", Toast.LENGTH_SHORT).show();
-
                         salvarUsuario();
-                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                        startActivity(intent);
-
+                        Snackbar.make(view, "pedido de confirmação enviado!", Snackbar.LENGTH_INDEFINITE)
+                                .setAction("confirmar", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                        startActivity(intent);
+                                    }
+                                }).show();
                     } else if (escolhaFuncionario.isChecked() && emailCadastro != null && cpfCadastroUsuario != null && senhaCadastro != null) {
-                        Toast.makeText(getApplicationContext(), "Funcionario cadastrado com sucesso!", Toast.LENGTH_SHORT).show();
-
+                        Snackbar.make(view, "pedido de confirmação enviado!", Snackbar.LENGTH_INDEFINITE)
+                                .setAction("confirmar", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                        startActivity(intent);
+                                    }
+                                }).show();
                         salvarUsuario();
-                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                        startActivity(intent);
-
                     } else if (escolhaDono.isChecked() || escolhaFuncionario.isChecked() && emailCadastro.getText().toString().equals("") || cpfCadastroUsuario.getText().toString().equals("") || senhaCadastro.getText().toString().equals("")) {
                         Toast.makeText(getApplicationContext(), "Insira em todos os campos", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(getApplicationContext(), "Escolha uma função!", Toast.LENGTH_SHORT).show();
                     }
+                }
+            }else {
+                    Toast.makeText(getApplicationContext(), "Somentes donos podem cadastrar usuarios", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -168,8 +181,6 @@ public class MainActivity2 extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Usuario> call, Throwable t) {
-
-                Toast.makeText(getApplicationContext(), "falha na requisição", Toast.LENGTH_SHORT).show();
             }
 
         });

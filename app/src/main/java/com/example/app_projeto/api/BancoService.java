@@ -10,26 +10,36 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 public interface BancoService {
-    @GET("Crud/ApiListarPessoas.php/")
+    @GET("ApiListarPessoas.php")
     Call<List<Usuario>> recuperarUsuario();
 
-    @GET
+    @GET("ApiListarClientes.php")
     Call<List<Cliente>> recuperarCliente();
 
     @GET
     Call<List<Frequencia>> recuperarFrequencia();
 
-    @POST("Crud/APIInserirPessoas.php/")
+    @POST("APIInserirPessoas.php/")
     Call<Usuario> salvarUsuario(@Header("Authorization") String authorizationHeader, @Body RequestBody usuario);
 
-    @POST("Crud/ApiCadastrarClientes.php/")
+    @POST("ApiCadastrarClientes.php")
     Call<Cliente> salvarCliente(@Header("Authorization") String authorizationHeader, @Body RequestBody cliente);
+    @POST("ApiAlterarPessoas.php")
+    Call<Usuario> atualizarUsuario();
 
-    @DELETE("")
-    Call<Usuario> deletarUsuario();
+    @DELETE("ApiDeletarPessoas.php/{id}")
+    Call<Void> deletarUsuario(@Path("id") int id);
+
+
+    @FormUrlEncoded
+    @POST("ApiLogin.php?nome=&senha=")
+    Call<Usuario> autenticar(@Field("nome")String nome, @Field("senha") String senha, @Field("usuario_type")String usuario_type);
 }

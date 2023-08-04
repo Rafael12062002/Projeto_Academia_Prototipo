@@ -1,12 +1,12 @@
 package com.example.app_projeto.model;
 
 public class Usuario {
-
     private int id;
     private String nome;
     private String cpf;
     private String senha;
     private String usuario_type;
+    private boolean exists;
 
     public int getId() {
         return id;
@@ -46,5 +46,13 @@ public class Usuario {
 
     public void setUsuario_type(String usuario_type) {
         this.usuario_type = usuario_type;
+    }
+
+    public boolean isExists() {
+        return exists;
+    }
+
+    public void setExists(boolean exists) {
+        this.exists = exists;
     }
 }

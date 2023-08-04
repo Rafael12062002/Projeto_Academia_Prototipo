@@ -16,7 +16,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5"
         app:layout_constraintVertical_bias="1.0"
-        tools:listitem="@layout/lista_clientes_adapter" />
+        tools:listitem="@layout/lista_usuario_adapter" />
 
     <TextView
         android:id="@+id/textView5"

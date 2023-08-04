@@ -34,7 +34,7 @@ public class ListaClienteAdapter extends RecyclerView.Adapter<ListaClienteAdapte
 
         Cliente cliente = lista.get(position);
         holder.textNome.setText(cliente.getNome());
-        holder.textCpf.setText(cliente.getCpf());
+        holder.textCpf.setText(cliente.getMensalidade());
         holder.textTurno.setText(cliente.getTurno());
     }
 
