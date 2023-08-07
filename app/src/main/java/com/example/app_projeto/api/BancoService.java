@@ -24,7 +24,7 @@ public interface BancoService {
     @GET("ApiListarClientes.php")
     Call<List<Cliente>> recuperarCliente();
 
-    @GET
+    @GET("api.php")
     Call<List<Frequencia>> recuperarFrequencia();
 
     @POST("APIInserirPessoas.php/")
