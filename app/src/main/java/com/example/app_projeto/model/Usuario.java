@@ -8,6 +8,8 @@ public class Usuario {
     private String usuario_type;
     private boolean exists;
 
+    private String perfil;
+
     public int getId() {
         return id;
     }
