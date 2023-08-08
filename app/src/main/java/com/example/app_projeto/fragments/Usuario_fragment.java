@@ -1,16 +1,8 @@
-package com.example.app_projeto.telas;
+package com.example.app_projeto.fragments;
 
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,13 +11,20 @@ import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.app_projeto.R;
 import com.example.app_projeto.adapter.ListaUsuarioAdapter;
-import com.example.app_projeto.api.BancoService;
 import com.example.app_projeto.api.RetrofitUsuario;
 import com.example.app_projeto.databinding.FragmentUsuarioFragmentBinding;
 import com.example.app_projeto.listener.RecyclerItemClickListener;
 import com.example.app_projeto.model.Usuario;
+import com.example.app_projeto.telas.EditarUsuarioActivit;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +32,6 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -96,6 +94,7 @@ public class Usuario_fragment extends Fragment {
 
         listaUsuarioAdapter = new ListaUsuarioAdapter(usuarioList);
 
+        recyclerView = view.findViewById(R.id.recycler);
         //configura recycler
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
@@ -104,7 +103,7 @@ public class Usuario_fragment extends Fragment {
         recyclerView.setAdapter(listaUsuarioAdapter);
 
         recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(
-                this,
+                getContext(),
                 recyclerView,
                 new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
@@ -128,7 +127,7 @@ public class Usuario_fragment extends Fragment {
                         builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                String usuario_type = getIntent().getStringExtra("usuario");
+                                String usuario_type = getActivity().getString(Integer.parseInt("usuario"));
                                 if (usuario_type.equals("dono")) {
                                     deletarUsuario(position, idPessoa);
                                 }else{

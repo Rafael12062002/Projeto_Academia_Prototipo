@@ -7,7 +7,7 @@
     tools:context=".telas.ListaUsuario">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/usuariosCadastrados"
+        android:id="@+id/recycler"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
@@ -35,7 +35,7 @@
         android:layout_height="30dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/usuariosCadastrados"
+        app:layout_constraintBottom_toTopOf="@+id/recycler"
         app:layout_constraintEnd_toStartOf="@+id/textView5"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"

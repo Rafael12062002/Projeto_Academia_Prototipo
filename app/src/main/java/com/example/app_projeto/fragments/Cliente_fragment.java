@@ -1,17 +1,16 @@
-package com.example.app_projeto.telas;
+package com.example.app_projeto.fragments;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.app_projeto.R;
 import com.example.app_projeto.adapter.ListaClienteAdapter;
@@ -87,8 +86,10 @@ public class Cliente_fragment extends Fragment {
 
         listaClienteAdapter = new ListaClienteAdapter(clienteList);
 
+        listaClientes = view.findViewById(R.id.listaClientes);
+
         //Configurar recycler view
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this.getContext());
         listaClientes.setLayoutManager(layoutManager);
         listaClientes.setHasFixedSize(true);
         listaClientes.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayout.VERTICAL));

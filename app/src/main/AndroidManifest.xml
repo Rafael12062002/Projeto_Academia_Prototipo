@@ -28,16 +28,13 @@
             android:name=".telas.EditarUsuarioActivit"
             android:exported="false" />
         <activity
-            android:name=".telas.ListaUsuario"
-            android:exported="true" />
-        <activity
             android:name=".telas.CadastrarClienteActivity"
             android:exported="false" />
         <activity
             android:name=".telas.MainActivity3"
             android:exported="true" />
         <activity
-            android:name=".telas.MainActivity2"
+            android:name=".telas.CadastrarUsuario"
             android:exported="false" />
         <activity
             android:name=".telas.MainActivity"
